@@ -49,7 +49,16 @@ public class MSDStringSort {
         else return -1;
     }
 
-    private static final int radix = 256;
+    private static final int radix = 65000;
     private static final int cutoff = 15;
     private static String[] aux;       // auxiliary array for distribution
+
+    public static void main(String[] args) {
+        String[] a = {"ఫణి", "మోహిత్", "అనిల్", "సాకేత్", "సంతోష్", "వివేక్", "ప్రణోతి", "అభిషేక్", "ఫణి", "మోహిత్", "అనిల్", "సాకేత్", "సంతోష్", "వివేక్", "ప్రణోతి", "అభిషేక్"};
+        String[] b = {"刘持平", "洪文胜", "樊辉辉", "苏会敏", "高民政"};
+        MSDStringSort.sort(b);
+        for (String s: b) {
+            System.out.print(s + " ");
+        }
+    }
 }
