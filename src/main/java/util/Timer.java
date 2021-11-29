@@ -1,5 +1,6 @@
 package util;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -53,16 +54,16 @@ public class Timer {
      * @return the average milliseconds per repetition.
      */
     public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
-        if (n > 0) logger.trace("repeat: with " + n + " runs");
-        else logger.warn("repeat: zero runs");
+        logger.trace("repeat: with " + n + " runs");
+        // TO BE IMPLEMENTED: note that the timer is running when this method is called and should still be running when it returns.
+        T value = supplier.get();
         pause();
-        for (int i = 0; i < n; i++) {
-            T t = supplier.get();
-            T t1 = preFunction != null ? preFunction.apply(t) : t;
+        for (int i=0; i<n; i++) {
+            if (preFunction!=null) value = preFunction.apply(value);
             resume();
-            U u = function.apply(t1);
+            U result = function.apply(value);
             pauseAndLap();
-            if (postFunction != null) postFunction.accept(u);
+            if (postFunction!=null) postFunction.accept(result);
         }
         return meanLapTime();
     }
@@ -193,7 +194,7 @@ public class Timer {
      * @return the corresponding number of milliseconds.
      */
     private static double toMillisecs(long ticks) {
-        return ticks / 1e6;
+        return TimeUnit.MILLISECONDS.convert(ticks, TimeUnit.NANOSECONDS);
     }
 
     final static LazyLogger logger = new LazyLogger(Timer.class);
