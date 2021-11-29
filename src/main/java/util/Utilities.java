@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Random;
 import java.util.function.Function;
 
-public final class Utilities {
+public class Utilities {
     /**
      * There is really no better way that I could find to do this with library/language methods.
      * Don't try to inline this if the generic type extends something like Comparable, or you will get a ClassCastException.
@@ -57,6 +57,16 @@ public final class Utilities {
     }
 
     /**
+     * Method to calculate log to tbe base 2 of n.
+     *
+     * @param n the number whose log we need.
+     * @return lg n.
+     */
+    public static double lg(double n) {
+        return Math.log(n) / Math.log(2);
+    }
+
+    /**
      * Check that the given array is sorted.
      *
      * @param ts  the array to be checked.
@@ -66,27 +76,5 @@ public final class Utilities {
     public static <T extends Comparable<T>> boolean isSorted(T[] ts) {
         for (int i = 1; i < ts.length; i++) if (ts[i - 1].compareTo(ts[i]) > 0) return false;
         return true;
-    }
-
-    /**
-     * Check that the given array is sorted.
-     *
-     * @param ts  the array to be checked.
-     * @param <T> the underlying type of ts.
-     * @throws RuntimeException if an inversion is found.
-     */
-    public static <T extends Comparable<T>> void checkSorted(T[] ts) {
-        if (!isSorted(ts))
-            throw new RuntimeException("array is not sorted");
-    }
-
-    /**
-     * Return log to the base 2 of x.
-     *
-     * @param x the number whose log we require.
-     * @return lg(x).
-     */
-    public static double lg(double x) {
-        return Math.log(x) / Math.log(2);
     }
 }
