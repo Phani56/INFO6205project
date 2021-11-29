@@ -1,5 +1,9 @@
 package sort.counting;
 
+import util.FileUtil;
+
+import java.io.FileNotFoundException;
+
 
 /**
  * Class to implement Most significant digit string sort (a radix sort).
@@ -54,10 +58,14 @@ public class MSDStringSort {
     private static String[] aux;       // auxiliary array for distribution
 
     public static void main(String[] args) {
-        String[] a = {"ఫణి", "మోహిత్", "అనిల్", "సాకేత్", "సంతోష్", "వివేక్", "ప్రణోతి", "అభిషేక్", "ఫణి", "మోహిత్", "అనిల్", "సాకేత్", "సంతోష్", "వివేక్", "ప్రణోతి", "అభిషేక్"};
-        String[] b = {"刘持平", "洪文胜", "樊辉辉", "苏会敏", "高民政"};
-        MSDStringSort.sort(b);
-        for (String s: b) {
+        String[] a = null;
+        try {
+            a = FileUtil.getWordArray("/TeluguWords.txt");
+        } catch (FileNotFoundException e) {
+            System.out.print(e.getMessage());
+        }
+        MSDStringSort.sort(a);
+        for (String s: a) {
             System.out.print(s + " ");
         }
     }
