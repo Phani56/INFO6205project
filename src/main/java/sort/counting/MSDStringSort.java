@@ -1,23 +1,15 @@
 package sort.counting;
 
-
-import net.sourceforge.pinyin4j.PinyinHelper;
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import util.FileUtil;
-
-import java.io.FileNotFoundException;
-import java.text.Collator;
-import java.util.Arrays;
-import java.util.Locale;
+import util.Utilities;
 
 
 /**
  * Class to implement Most significant digit string sort (a radix sort).
  */
 public class MSDStringSort {
+
+    public static String lang = FileUtil.getSortLanguage();
 
     /**
      * Sort an array of Strings using MSDStringSort.
@@ -59,16 +51,8 @@ public class MSDStringSort {
     }
 
     private static int charAt(String s, int d) {
-        String tempStr = "";
-        try {
-            HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-//            format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-//            format.setVCharType(HanyuPinyinVCharType.WITH_V);
-            tempStr = PinyinHelper.toHanyuPinyinString(s, format, " ");
-        } catch (BadHanyuPinyinOutputFormatCombination e) {
-            System.out.println(e.getMessage());
-        }
-        if (d < tempStr.length()) return tempStr.charAt(d);
+        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) s = Utilities.getPinyinString(s);
+        if (d < s.length()) return s.charAt(d);
         else return -1;
     }
 

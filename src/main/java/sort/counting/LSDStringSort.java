@@ -1,8 +1,13 @@
 package sort.counting;
 
+import util.FileUtil;
+import util.Utilities;
+
+import java.io.FileNotFoundException;
+
 public class LSDStringSort {
 
-    private final int ASCII_RANGE = 256;
+    private final int UNICODE_RANGE = 65535;
 
     /**
      * findMaxLength method returns maximum length of all available strings in an array
@@ -11,9 +16,9 @@ public class LSDStringSort {
      * @return int Returns maximum length value
      */
     private int findMaxLength(String[] strArr) {
-        int maxLength = strArr[0].length();
+        int maxLength = Utilities.getPinyinString(strArr[0]).length();
         for (String str : strArr)
-            maxLength = Math.max(maxLength, str.length());
+            maxLength = Math.max(maxLength, Utilities.getPinyinString(str).length());
         return maxLength;
     }
 
@@ -26,6 +31,7 @@ public class LSDStringSort {
      * @return int Returns ASCII value
      */
     private int charAsciiVal(String str, int charPosition) {
+        str = Utilities.getPinyinString(str);
         if (charPosition >= str.length()) {
             return 0;
         }
@@ -41,7 +47,7 @@ public class LSDStringSort {
      * @param to           This is the ending index up until which sorting operation will be continued
      */
     private void charSort(String[] strArr, int charPosition, int from, int to) {
-        int[] count = new int[ASCII_RANGE + 2];
+        int[] count = new int[UNICODE_RANGE + 2];
         String[] result = new String[strArr.length];
 
         for (int i = from; i <= to; i++) {
@@ -50,7 +56,7 @@ public class LSDStringSort {
         }
 
         // transform counts to indices
-        for (int r = 1; r < ASCII_RANGE + 2; r++)
+        for (int r = 1; r < UNICODE_RANGE + 2; r++)
             count[r] += count[r - 1];
 
         // distribute
@@ -83,5 +89,21 @@ public class LSDStringSort {
      */
     public void sort(String[] strArr) {
         sort(strArr, 0, strArr.length - 1);
+    }
+
+    public static void main(String[] args) {
+        String[] s = {"ded", "red", "aed", "eed", "beeee", "cat", "a", "superman"};
+        try {
+            s = FileUtil.getWordArray();
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found");
+        }
+        LSDStringSort lsd = new LSDStringSort();
+        lsd.sort(s);
+        System.out.println(s[0]);
+        System.out.println(s[1]);
+        System.out.println(s[2]);
+        System.out.println(s[3]);
+        System.out.println(s[4]);
     }
 }
