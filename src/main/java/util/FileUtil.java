@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,13 @@ import sort.counting.MSDStringSort;
 
 public class FileUtil {
 
-    public static String[] getWordArray(String filePath) throws FileNotFoundException {
+    public enum SortLanguage {
+        CHINESE,
+        TELUGU
+    }
+
+    public static String[] getWordArray() throws FileNotFoundException {
+        String filePath = ((FileUtil.getSortLanguage().equals(SortLanguage.CHINESE.toString())) ? "/shuffledChinese.txt" : "/TeluguWords.txt");
         return getWords(filePath, FileUtil::lineAsList);
     }
 
@@ -51,4 +58,18 @@ public class FileUtil {
         words.add(line);
         return words;
     }
+
+    public static String getSortLanguage() {
+        String lang = "";
+        try {
+            InputStream inputStream = FileUtil.class.getClassLoader().getResourceAsStream("config.properties");
+            Properties prop = new Properties();
+            prop.load(inputStream);
+            return prop.getProperty("lang");
+        } catch (IOException e) {
+            System.out.println("properties file not found");
+        }
+        return lang;
+    }
+
 }

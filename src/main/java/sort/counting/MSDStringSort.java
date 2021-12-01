@@ -1,8 +1,17 @@
 package sort.counting;
 
+
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import util.FileUtil;
 
 import java.io.FileNotFoundException;
+import java.text.Collator;
+import java.util.Arrays;
+import java.util.Locale;
 
 
 /**
@@ -46,27 +55,30 @@ public class MSDStringSort {
             for (int r = 0; r < radix; r++)
                 sort(a, lo + count[r], lo + count[r+1] - 1, d+1);
         }
+
     }
 
     private static int charAt(String s, int d) {
-        if (d < s.length()) return s.charAt(d);
+        String tempStr = "";
+        try {
+            HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+//            format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+//            format.setVCharType(HanyuPinyinVCharType.WITH_V);
+            tempStr = PinyinHelper.toHanyuPinyinString(s, format, " ");
+        } catch (BadHanyuPinyinOutputFormatCombination e) {
+            System.out.println(e.getMessage());
+        }
+        if (d < tempStr.length()) return tempStr.charAt(d);
         else return -1;
     }
 
-    private static final int radix = 65000;
+
+    private static final int radix = 65534;
     private static final int cutoff = 15;
     private static String[] aux;       // auxiliary array for distribution
 
     public static void main(String[] args) {
-        String[] a = null;
-        try {
-            a = FileUtil.getWordArray("/TeluguWords.txt");
-        } catch (FileNotFoundException e) {
-            System.out.print(e.getMessage());
-        }
+        String[] a = {"刘持平", "洪文胜", "樊辉辉", "苏会敏", "高民政"};
         MSDStringSort.sort(a);
-        for (String s: a) {
-            System.out.print(s + " ");
-        }
     }
 }
