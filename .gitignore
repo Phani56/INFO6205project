@@ -125,3 +125,5 @@ fabric.properties
 *.zip
 *.tar.gz
 *.rar
+
+/target/

@@ -13,5 +13,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="log4j" level="project" />
     <orderEntry type="library" exported="" name="ini4j" level="project" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
+    <orderEntry type="library" name="Maven: org.ini4j:ini4j:0.5.4" level="project" />
+    <orderEntry type="library" name="Maven: com.github.stuxuhai:jpinyin:1.1.8" level="project" />
+    <orderEntry type="library" name="Maven: com.belerweb:pinyin4j:2.5.0" level="project" />
   </component>
 </module>
