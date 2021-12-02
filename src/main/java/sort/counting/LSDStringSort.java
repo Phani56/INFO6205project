@@ -9,6 +9,8 @@ public class LSDStringSort {
 
     private final int UNICODE_RANGE = 65535;
 
+    public static String lang = FileUtil.getSortLanguage();
+
     /**
      * findMaxLength method returns maximum length of all available strings in an array
      *
@@ -16,9 +18,16 @@ public class LSDStringSort {
      * @return int Returns maximum length value
      */
     private int findMaxLength(String[] strArr) {
-        int maxLength = Utilities.getPinyinString(strArr[0]).length();
-        for (String str : strArr)
-            maxLength = Math.max(maxLength, Utilities.getPinyinString(str).length());
+        int maxLength;
+        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) {
+            maxLength = Utilities.getPinyinString(strArr[0]).length();
+            for (String str : strArr)
+                maxLength = Math.max(maxLength, Utilities.getPinyinString(str).length());
+        } else {
+            maxLength = strArr[0].length();
+            for (String str : strArr)
+                maxLength = Math.max(maxLength, str.length());
+        }
         return maxLength;
     }
 
@@ -31,7 +40,7 @@ public class LSDStringSort {
      * @return int Returns ASCII value
      */
     private int charAsciiVal(String str, int charPosition) {
-        str = Utilities.getPinyinString(str);
+        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) str = Utilities.getPinyinString(str);
         if (charPosition >= str.length()) {
             return 0;
         }
@@ -91,19 +100,4 @@ public class LSDStringSort {
         sort(strArr, 0, strArr.length - 1);
     }
 
-    public static void main(String[] args) {
-        String[] s = {"ded", "red", "aed", "eed", "beeee", "cat", "a", "superman"};
-        try {
-            s = FileUtil.getWordArray();
-        } catch (FileNotFoundException e) {
-            System.out.println("file not found");
-        }
-        LSDStringSort lsd = new LSDStringSort();
-        lsd.sort(s);
-        System.out.println(s[0]);
-        System.out.println(s[1]);
-        System.out.println(s[2]);
-        System.out.println(s[3]);
-        System.out.println(s[4]);
-    }
 }

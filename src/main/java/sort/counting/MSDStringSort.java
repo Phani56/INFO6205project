@@ -61,8 +61,18 @@ public class MSDStringSort {
     private static final int cutoff = 15;
     private static String[] aux;       // auxiliary array for distribution
 
-    public static void main(String[] args) {
-        String[] a = {"刘持平", "洪文胜", "樊辉辉", "苏会敏", "高民政"};
-        MSDStringSort.sort(a);
-    }
+
+//    public static void main(String[] args) {
+//        String[] a = {"刘持平", "洪文胜", "樊辉辉", "苏会敏", "高民政"};
+//        try {
+//            a = FileUtil.getWordArray();
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//        MSDStringSort.sort(a);
+//        for (int n=0; n<15; n++) {
+//            System.out.println(a[n]);
+//        }
+//    }
+
 }

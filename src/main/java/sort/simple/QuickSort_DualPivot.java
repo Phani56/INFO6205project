@@ -1,110 +1,95 @@
 package sort.simple;
 
-import sort.Helper;
-import util.Config;
 
-import java.util.ArrayList;
-import java.util.List;
+import util.FileUtil;
 
-/**
- * Class to implement Dual-pivot Quick Sort.
- *
- * @param <X> the underlying type to be sorted.
- */
-public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
+import java.text.Collator;
+import java.util.Locale;
 
-    public static final String DESCRIPTION = "QuickSort dual pivot";
+public class QuickSort_DualPivot {
 
-    /**
-     * Method to create a partitioner.
-     *
-     * @return a Partitioner
-     */
-    public Partitioner<X> createPartitioner() {
-        return new Partitioner_DualPivot(getHelper());
+    public static String lang = FileUtil.getSortLanguage();
+
+    // quicksort the array a[] using dual-pivot quicksort
+    public static void sort(String[] a) {
+        sort(a, 0, a.length - 1);
+        assert isSorted(a);
     }
 
-    public QuickSort_DualPivot(final String description, final int N, final Config config) {
-        super(description, N, config);
-        setPartitioner(createPartitioner());
-    }
+    // quicksort the subarray a[lo .. hi] using dual-pivot quicksort
+    private static void sort(String[] a, int lo, int hi) {
+        if (hi <= lo) return;
 
-    /**
-     * Constructor for QuickSort_3way
-     *
-     * @param helper an explicit instance of Helper to be used.
-     */
-    public QuickSort_DualPivot(final Helper<X> helper) {
-        super(helper);
-        setPartitioner(createPartitioner());
-    }
+        // make sure a[lo] <= a[hi]
+        if (less(a[hi], a[lo])) exch(a, lo, hi);
 
-    /**
-     * Constructor for QuickSort_3way
-     *
-     * @param N      the number elements we expect to sort.
-     * @param config the configuration.
-     */
-    public QuickSort_DualPivot(final int N, final Config config) {
-        this(DESCRIPTION, N, config);
-    }
-
-    public final class Partitioner_DualPivot implements Partitioner<X> {
-
-        public Partitioner_DualPivot(final Helper<X> helper) {
-            this.helper = helper;
+        int lt = lo + 1, gt = hi - 1;
+        int i = lo + 1;
+        while (i <= gt) {
+            if       (less(a[i], a[lo])) exch(a, lt++, i++);
+            else if  (less(a[hi], a[i])) exch(a, i, gt--);
+            else                         i++;
         }
+        exch(a, lo, --lt);
+        exch(a, hi, ++gt);
 
-        /**
-         * Method to partition the given partition into smaller partitions.
-         *
-         * @param partition the partition to divide up.
-         * @return an array of partitions, whose length depends on the sorting method being used.
-         */
-        public List<Partition<X>> partition(final Partition<X> partition) {
-            final X[] xs = partition.xs;
-            final int lo = partition.from;
-            final int hi = partition.to - 1;
-            helper.swapConditional(xs, lo, hi);
-            int lt = lo + 1;
-            int gt = hi - 1;
-            int i = lt;
-            // NOTE: we are trying to avoid checking on instrumented for every time in the inner loop for performance reasons (probably a silly idea).
-            // NOTE: if we were using Scala, it would be easy to set up a comparer function and a swapper function. With java, it's possible but much messier.
-            if (helper.instrumented()) {
-                while (i <= gt) {
-                    if (helper.compare(xs, i, lo) < 0) helper.swap(xs, lt++, i++);
-                    else if (helper.compare(xs, i, hi) > 0) helper.swap(xs, i, gt--);
-                    else i++;
-                }
-                helper.swap(xs, lo, --lt);
-                helper.swap(xs, hi, ++gt);
-            } else {
-                while (i <= gt) {
-                    final X x = xs[i];
-                    if (x.compareTo(xs[lo]) < 0) swap(xs, lt++, i++);
-                    else if (x.compareTo(xs[hi]) > 0) swap(xs, i, gt--);
-                    else i++;
-                }
-                swap(xs, lo, --lt);
-                swap(xs, hi, ++gt);
-            }
+        // recursively sort three subarrays
+        sort(a, lo, lt-1);
+        if (less(a[lt], a[gt])) sort(a, lt+1, gt-1);
+        sort(a, gt+1, hi);
 
-            final List<Partition<X>> partitions = new ArrayList<>();
-            partitions.add(new Partition<>(xs, lo, lt));
-            partitions.add(new Partition<>(xs, lt + 1, gt));
-            partitions.add(new Partition<>(xs, gt + 1, hi + 1));
-            return partitions;
+        assert isSorted(a, lo, hi);
+    }
+
+
+
+    /***************************************************************************
+     *  Helper sorting functions.
+     ***************************************************************************/
+
+    // is v < w ?
+    private static boolean less(String v, String w) {
+        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) return Collator.getInstance(Locale.CHINA).compare(v,w)<0;
+        return v.compareTo(w) < 0;
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+    /***************************************************************************
+     *  Check if array is sorted - useful for debugging.
+     ***************************************************************************/
+    private static boolean isSorted(String[] a) {
+        return isSorted(a, 0, a.length - 1);
+    }
+
+    private static boolean isSorted(String[] a, int lo, int hi) {
+        for (int i = lo + 1; i <= hi; i++)
+            if (less(a[i], a[i-1])) return false;
+        return true;
+    }
+
+    // print array to standard output
+    private static void show(String[] a) {
+        for (int i = 0; i < 20; i++) {
+            System.out.println(a[i]);
         }
+    }
 
-        // CONSIDER invoke swap in BaseHelper.
-        private void swap(final X[] ys, final int i, final int j) {
-            final X temp = ys[i];
-            ys[i] = ys[j];
-            ys[j] = temp;
+    // Read strings from standard input, sort them, and print.
+    public static void main(String[] args) {
+        String[] a = {"a", "b", "c"};
+        try {
+            a = FileUtil.getWordArray();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-        private final Helper<X> helper;
+        QuickSort_DualPivot.sort(a);
+        show(a);
     }
 
 }

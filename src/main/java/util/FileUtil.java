@@ -19,7 +19,7 @@ public class FileUtil {
         TELUGU
     }
 
-    public static String[] getWordArray() throws FileNotFoundException {
+    public static String[] getWordArray(){
         String filePath = ((FileUtil.getSortLanguage().equals(SortLanguage.CHINESE.toString())) ? "/shuffledChinese.txt" : "/TeluguWords.txt");
         return getWords(filePath, FileUtil::lineAsList);
     }
@@ -61,6 +61,7 @@ public class FileUtil {
 
     public static String getSortLanguage() {
         String lang = "";
+        System.out.println("In getSortLanguage");
         try {
             InputStream inputStream = FileUtil.class.getClassLoader().getResourceAsStream("config.properties");
             Properties prop = new Properties();
