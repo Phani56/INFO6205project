@@ -22,7 +22,7 @@ public class FileUtil {
     }
 
     public static String[] getWordArray(){
-        String filePath = ((FileUtil.getSortLanguage().equals(SortLanguage.CHINESE.toString())) ? "/shuffledChinese.txt" : "/TeluguWords.txt");
+        String filePath = ((FileUtil.getSortLanguage().equals(SortLanguage.CHINESE.toString())) ? "/shuffledChinese.txt" : "/shuffledTelugu.txt");
         return getWords(filePath, FileUtil::lineAsList);
     }
 

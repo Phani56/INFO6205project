@@ -127,3 +127,5 @@ fabric.properties
 *.rar
 
 /target/
+
+*.DS_Store
