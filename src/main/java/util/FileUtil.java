@@ -14,6 +14,8 @@ import sort.counting.MSDStringSort;
 
 public class FileUtil {
 
+    final static LazyLogger logger = new LazyLogger(FileUtil.class);
+
     public enum SortLanguage {
         CHINESE,
         TELUGU
@@ -28,11 +30,9 @@ public class FileUtil {
         Class<?> clazz = MSDStringSort.class;
         try {
             final File file = new File(Objects.requireNonNull(clazz.getResource(resource)).toURI());
-            final String[] result = getWordArray(file, stringListFunction, 2);
-            System.out.println("getWords: testing with " + result.length + " unique words: from " + file);
-            return result;
+            return getWordArray(file, stringListFunction, 2);
         } catch (final URISyntaxException | NullPointerException e) {
-            System.out.println("Cannot find resource: " + resource + "  relative to class: " + clazz);
+            logger.info("Cannot find resource: " + resource + "  relative to class: " + clazz);
             return new String[0];
         }
     }
@@ -61,14 +61,13 @@ public class FileUtil {
 
     public static String getSortLanguage() {
         String lang = "";
-        System.out.println("In getSortLanguage");
         try {
             InputStream inputStream = FileUtil.class.getClassLoader().getResourceAsStream("config.properties");
             Properties prop = new Properties();
             prop.load(inputStream);
             return prop.getProperty("lang");
         } catch (IOException e) {
-            System.out.println("properties file not found");
+            logger.error("Properties file not found");
         }
         return lang;
     }
