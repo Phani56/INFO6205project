@@ -1,6 +1,7 @@
 package sort.counting;
 
 import util.FileUtil;
+import util.Utilities;
 
 import java.text.Collator;
 import java.util.Locale;
@@ -11,7 +12,7 @@ import java.util.Locale;
  */
 public class InsertionSortMSD {
 
-    public static String lang = FileUtil.getSortLanguage();
+    public static String language = FileUtil.getSortLanguage();
 
     public static void sort(String[] a, int lo, int hi, int d) {
         for (int i = lo; i < hi; i++)
@@ -20,8 +21,9 @@ public class InsertionSortMSD {
     }
 
     private static boolean less(String v, String w, int d) {
-        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) {
-            return Collator.getInstance(Locale.CHINA).compare(v, w) < 0;
+        if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) {
+            return Utilities.getPinyinString(v).compareTo(Utilities.getPinyinString(w))<0;
+//            return Collator.getInstance(Locale.CHINA).compare(v, w) < 0;
         } else return v.substring(d).compareTo(w.substring(d)) < 0;
     }
 

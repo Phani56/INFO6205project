@@ -3,13 +3,13 @@ package sort.counting;
 import util.FileUtil;
 import util.Utilities;
 
-import java.io.FileNotFoundException;
 
 public class LSDStringSort {
 
-    private static final int UNICODE_RANGE = 65535;
+    private static final int radix = Integer.parseInt(FileUtil.getProperties().getProperty("unicode_radix_range"));; // CHINESE PINYIN -> 256, TELUGU ->128;
+    private static final int unicodeOffset = Integer.parseInt(FileUtil.getProperties().getProperty("unicode_offset")); // CHINESE PINYIN -> 0, TELUGU ->3072
 
-    public static String lang = FileUtil.getSortLanguage();
+    public static String language = FileUtil.getSortLanguage();
 
     /**
      * findMaxLength method returns maximum length of all available strings in an array
@@ -19,7 +19,7 @@ public class LSDStringSort {
      */
     private static int findMaxLength(String[] strArr) {
         int maxLength;
-        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) {
+        if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) {
             maxLength = Utilities.getPinyinString(strArr[0]).length();
             for (String str : strArr)
                 maxLength = Math.max(maxLength, Utilities.getPinyinString(str).length());
@@ -40,11 +40,11 @@ public class LSDStringSort {
      * @return int Returns ASCII value
      */
     private static int charAsciiVal(String str, int charPosition) {
-        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) str = Utilities.getPinyinString(str);
+        if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) str = Utilities.getPinyinString(str);
         if (charPosition >= str.length()) {
             return 0;
         }
-        return str.charAt(charPosition);
+        return str.charAt(charPosition)-unicodeOffset;
     }
 
     /**
@@ -56,7 +56,7 @@ public class LSDStringSort {
      * @param to           This is the ending index up until which sorting operation will be continued
      */
     private static void charSort(String[] strArr, int charPosition, int from, int to) {
-        int[] count = new int[UNICODE_RANGE + 2];
+        int[] count = new int[radix + 2];
         String[] result = new String[strArr.length];
 
         for (int i = from; i <= to; i++) {
@@ -65,7 +65,7 @@ public class LSDStringSort {
         }
 
         // transform counts to indices
-        for (int r = 1; r < UNICODE_RANGE + 2; r++)
+        for (int r = 1; r < radix + 2; r++)
             count[r] += count[r - 1];
 
         // distribute

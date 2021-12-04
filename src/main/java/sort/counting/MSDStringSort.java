@@ -5,11 +5,19 @@ import util.Utilities;
 
 
 /**
- * Class to implement Most significant digit string sort (a radix sort).
+ * MSD Radix sort for Native languages CHINESE, TELUGU
  */
 public class MSDStringSort {
 
-    public static String lang = FileUtil.getSortLanguage();
+    public static String language = FileUtil.getSortLanguage();
+
+    // radix and offset values are set read from config file.
+    private static final int radix = Integer.parseInt(FileUtil.getProperties().getProperty("unicode_radix_range"));; // CHINESE PINYIN -> 256, TELUGU ->128
+    private static final int unicodeOffset = Integer.parseInt(FileUtil.getProperties().getProperty("unicode_offset")); // CHINESE PINYIN -> 0, TELUGU ->3072
+
+
+    private static final int cutoff = 15;
+    private static String[] aux;       // auxiliary array for distribution
 
     /**
      * Sort an array of Strings using MSDStringSort.
@@ -19,7 +27,7 @@ public class MSDStringSort {
     public static void sort(String[] a) {
         int n = a.length;
         aux = new String[n];
-        sort(a, 0, n, 0);
+        sort(a, 0, n-1, 0);
     }
 
     /**
@@ -32,47 +40,30 @@ public class MSDStringSort {
      * @param d the number of characters in each String to be skipped.
      */
     private static void sort(String[] a, int lo, int hi, int d) {
-        if (hi < lo + cutoff) InsertionSortMSD.sort(a, lo, hi, d);
+        if (hi < lo + cutoff) InsertionSortMSD.sort(a, lo, hi+1, d);
         else {
             int[] count = new int[radix + 2];        // Compute frequency counts.
-            for (int i = lo; i < hi; i++)
+            for (int i = lo; i <= hi; i++)
                 count[charAt(a[i], d) + 2]++;
             for (int r = 0; r < radix + 1; r++)      // Transform counts to indices.
                 count[r + 1] += count[r];
-            for (int i = lo; i < hi; i++)     // Distribute.
+            for (int i = lo; i <= hi; i++)     // Distribute.
                 aux[count[charAt(a[i], d) + 1]++] = a[i];
             // Copy back.
-            if (hi - lo >= 0) System.arraycopy(aux, 0, a, lo, hi - lo);
+            if (hi + 1 - lo >= 0) System.arraycopy(aux, 0, a, lo, hi + 1 - lo);
+
             // Recursively sort for each character value.
-            for (int r = 0; r < radix; r++)
+            for (int r = 0; r <= radix; r++)
                 sort(a, lo + count[r], lo + count[r+1] - 1, d+1);
         }
 
     }
 
     private static int charAt(String s, int d) {
-        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) s = Utilities.getPinyinString(s);
-        if (d < s.length()) return s.charAt(d);
+        if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) s = Utilities.getPinyinString(s);
+        if (d < s.length()) return s.charAt(d)-unicodeOffset;
         else return -1;
     }
 
-
-    private static final int radix = 65534;
-    private static final int cutoff = 15;
-    private static String[] aux;       // auxiliary array for distribution
-
-
-//    public static void main(String[] args) {
-//        String[] a = {"刘持平", "洪文胜", "樊辉辉", "苏会敏", "高民政"};
-//        try {
-//            a = FileUtil.getWordArray();
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        MSDStringSort.sort(a);
-//        for (int n=0; n<15; n++) {
-//            System.out.println(a[n]);
-//        }
-//    }
 
 }

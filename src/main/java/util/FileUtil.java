@@ -50,7 +50,7 @@ public class FileUtil {
         final List<String> words = new ArrayList<>();
         for (final Object line : new BufferedReader(fr).lines().toArray())
             words.addAll(stringListFunction.apply((String) line));
-        return words.stream().distinct().filter(s -> s.length() >= minLength).collect(Collectors.toList());
+        return words.stream().filter(s -> s.length() >= minLength).collect(Collectors.toList());
     }
 
     static List<String> lineAsList(final String line) {
@@ -60,16 +60,20 @@ public class FileUtil {
     }
 
     public static String getSortLanguage() {
-        String lang = "";
+        return getProperties().getProperty("language");
+    }
+
+    public static Properties getProperties() {
+        Properties prop = new Properties();
         try {
             InputStream inputStream = FileUtil.class.getClassLoader().getResourceAsStream("config.properties");
-            Properties prop = new Properties();
             prop.load(inputStream);
-            return prop.getProperty("lang");
         } catch (IOException e) {
             logger.error("Properties file not found");
         }
-        return lang;
+        logger.info("in get properties");
+        return prop;
     }
+
 
 }

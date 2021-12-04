@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class QuickSort_DualPivot {
 
-    public static String lang = FileUtil.getSortLanguage();
+    public static String language = FileUtil.getSortLanguage();
 
     // quicksort the array a[] using dual-pivot quicksort
     public static void sort(String[] a) {
@@ -49,7 +49,7 @@ public class QuickSort_DualPivot {
 
     // is v < w ?
     private static boolean less(String v, String w) {
-        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) return Collator.getInstance(Locale.CHINA).compare(v,w)<0;
+        if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) return Collator.getInstance(Locale.CHINA).compare(v,w)<0;
         return v.compareTo(w) < 0;
     }
 

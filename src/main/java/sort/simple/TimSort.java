@@ -12,10 +12,10 @@ import java.util.Locale;
 
 public class TimSort{
 
-    public static String lang = FileUtil.getSortLanguage();
+    public static String language = FileUtil.getSortLanguage();
 
     public static void sort(String[] xs) {
-        if (lang.equals(FileUtil.SortLanguage.CHINESE.toString()))
+        if (language.equals(FileUtil.SortLanguage.CHINESE.toString()))
             Arrays.sort(xs, Collator.getInstance(Locale.CHINA));
         else Arrays.sort(xs);
     }

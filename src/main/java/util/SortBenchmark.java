@@ -13,11 +13,11 @@ import java.util.function.Supplier;
 
 public class SortBenchmark<T> {
 
-    static int inputSize = 250000;
+    static int inputSize = 1000000;
 
     static String inputType = "RANDOM";
 
-    public static String lang = FileUtil.getSortLanguage();
+    public static String language = FileUtil.getSortLanguage();
 
     final static LazyLogger logger = new LazyLogger(SortBenchmark.class);
 
@@ -50,12 +50,12 @@ public class SortBenchmark<T> {
         }
         switch (inputType) {
             case "PARTIALLY_SORTED":
-                if (lang.equals(FileUtil.SortLanguage.CHINESE.toString()))
+                if (language.equals(FileUtil.SortLanguage.CHINESE.toString()))
                     Arrays.sort(arr, 0, arr.length / 2, Collator.getInstance(Locale.CHINA));
                 else Arrays.sort(arr, 0, arr.length / 2);
                 break;
             case "REVERSE":
-                if (lang.equals(FileUtil.SortLanguage.CHINESE.toString())) {
+                if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) {
                     String[] arrCopy = new String[arr.length];
                     Arrays.sort(arr, Collator.getInstance(Locale.CHINA));
                     for (int i = 1; i < arr.length; i++) {
@@ -67,7 +67,7 @@ public class SortBenchmark<T> {
                 Arrays.sort(arr, Collections.reverseOrder());
                 break;
             case "SORTED":
-                if (lang.equals(FileUtil.SortLanguage.CHINESE.toString()))
+                if (language.equals(FileUtil.SortLanguage.CHINESE.toString()))
                     Arrays.sort(arr, Collator.getInstance(Locale.CHINA));
                 else Arrays.sort(arr);
                 break;
@@ -103,11 +103,25 @@ public class SortBenchmark<T> {
             sortBenchmark.benchmarkAlgorithm("Dual Pivot Quick Sort", QuickSort_DualPivot::sort, wordSupplier);
         }
 
-//        for (String currentInputType: inputTypes) {
-//            inputType = currentInputType;
-//            inputSize = 250000;
-//            sortBenchmark.benchmarkAlgorithm("MSD Radix sort", MSDStringSort::sort, wordSupplier);
+        for (String currentInputType: inputTypes) {
+            inputType = currentInputType;
+            inputSize = 250000;
+            sortBenchmark.benchmarkAlgorithm("MSD Radix sort", MSDStringSort::sort, wordSupplier);
+        }
+
+//        String[] teluguWords = getWordsByInput();
+//        String[] sortedteluguWords = getWordsByInput();
+//        long start = System.currentTimeMillis();
+//        MSDStringSort.sort(teluguWords);
+//        System.out.println(System.currentTimeMillis()-start);
+//        LSDStringSort.sort(sortedteluguWords);
+//        int c = 0;
+//        for (int i = 0; i < teluguWords.length; i++) {
+//            if (!teluguWords[i].equals(sortedteluguWords[i])) {
+//                c++;
+//            }
 //        }
+//        System.out.println(c);
     }
 
 }
