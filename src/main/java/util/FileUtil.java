@@ -71,7 +71,6 @@ public class FileUtil {
         } catch (IOException e) {
             logger.error("Properties file not found");
         }
-        logger.info("in get properties");
         return prop;
     }
 

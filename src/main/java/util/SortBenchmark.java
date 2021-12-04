@@ -2,6 +2,8 @@ package util;
 
 import sort.counting.LSDStringSort;
 import sort.counting.MSDStringSort;
+import sort.huskySort.PureHuskySort;
+import sort.huskySortUtils.HuskyCoderFactory;
 import sort.simple.QuickSort_DualPivot;
 import sort.simple.TimSort;
 
@@ -23,7 +25,7 @@ public class SortBenchmark<T> {
 
     static Supplier<String[]> wordSupplier = SortBenchmark::getWordsByInput;
 
-    static int RUNS = 2;
+    static int RUNS = 5;
 
     static int TWO_FOLD_INCREMENTS = 5;
 
@@ -32,13 +34,12 @@ public class SortBenchmark<T> {
             int runs = RUNS;
             Benchmark<String[]> benchmarkTimer = new Benchmark_Timer(sortAlgorithm, sortFunc);
             double meanTime = benchmarkTimer.runFromSupplier(supplier, runs);
-            logger.info("Mean Time for INPUT_TYPE " + inputType + "and" + " INPUT_SIZE " + inputSize + ": " + meanTime);
+            logger.info("Mean Time for INPUT_TYPE " + inputType + " and" + " INPUT_SIZE " + inputSize + " : " + meanTime);
             inputSize = inputSize*2;
         }
     }
 
     static String[] getWordsByInput() {
-        logger.info("In get words");
         String[] arr = new String[inputSize];
         String[] sourceArray = FileUtil.getWordArray();
         if (inputSize<=1000000) {
@@ -76,7 +77,7 @@ public class SortBenchmark<T> {
     }
 
     public static void main(String[] args) {
-        String[] inputTypes = {"SORTED", "PARTIALLY_SORTED", "REVERSE", "RANDOM"};
+        String[] inputTypes = {"REVERSE", "PARTIALLY_SORTED", "SORTED", "RANDOM"};
         SortBenchmark<String[]> sortBenchmark = new SortBenchmark<>();
 
         for (String currentInputType: inputTypes) {
@@ -106,15 +107,19 @@ public class SortBenchmark<T> {
         for (String currentInputType: inputTypes) {
             inputType = currentInputType;
             inputSize = 250000;
-            sortBenchmark.benchmarkAlgorithm("MSD Radix sort", MSDStringSort::sort, wordSupplier);
+            PureHuskySort pureHuskySort = new PureHuskySort(HuskyCoderFactory.utf8Coder, false, true);
+            sortBenchmark.benchmarkAlgorithm("MSD Radix sort", pureHuskySort::sort, wordSupplier);
         }
 
 //        String[] teluguWords = getWordsByInput();
 //        String[] sortedteluguWords = getWordsByInput();
 //        long start = System.currentTimeMillis();
-//        MSDStringSort.sort(teluguWords);
-//        System.out.println(System.currentTimeMillis()-start);
-//        LSDStringSort.sort(sortedteluguWords);
+//        QuickSort_DualPivot.sort(teluguWords);
+//        long second = System.currentTimeMillis();
+//        logger.info("Quicksort time" + (second-start));
+//        TimSort.sort(sortedteluguWords);
+//        long third = System.currentTimeMillis();
+//        logger.info("Quicksort time" + (third-second));
 //        int c = 0;
 //        for (int i = 0; i < teluguWords.length; i++) {
 //            if (!teluguWords[i].equals(sortedteluguWords[i])) {
