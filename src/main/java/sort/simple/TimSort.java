@@ -7,6 +7,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 
+
+/**
+ * Timsort using the default system sort.
+ * String comparator is passed for Pinyin comparison.
+ */
+
 public class TimSort{
 
     public static String language = FileUtil.getSortLanguage();

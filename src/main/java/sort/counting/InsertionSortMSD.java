@@ -7,8 +7,10 @@ import java.text.Collator;
 import java.util.Locale;
 
 /**
- * This is a basic implementation of insertion sort.
- * It does not extend Sort, nor does it employ any optimizations.
+ * Modified InsertionSortMSD from HuskySort repository. Changes include configuration of code based on the language
+ * CHINESE/PINYIN
+ * This is a basic implementation of insertion sort used.
+ *
  */
 public class InsertionSortMSD {
 

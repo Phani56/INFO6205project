@@ -5,6 +5,10 @@ import util.FileUtil;
 import util.Utilities;
 
 
+/**
+ * Modified Dual Pivot Quicksort from textbook. (Algorithms by Robert Sedgewick)
+ * Config for input language to handle Pinyin and basic unicode ordering.
+ */
 public class QuickSort_DualPivot {
 
     public static String language = FileUtil.getSortLanguage();
@@ -12,7 +16,6 @@ public class QuickSort_DualPivot {
     // quicksort the array a[] using dual-pivot quicksort
     public static void sort(String[] a) {
         sort(a, 0, a.length - 1);
-        assert isSorted(a);
     }
 
     // quicksort the subarray a[lo .. hi] using dual-pivot quicksort
@@ -37,7 +40,6 @@ public class QuickSort_DualPivot {
         if (less(a[lt], a[gt])) sort(a, lt+1, gt-1);
         sort(a, gt+1, hi);
 
-        assert isSorted(a, lo, hi);
     }
 
 
@@ -59,18 +61,6 @@ public class QuickSort_DualPivot {
         a[j] = swap;
     }
 
-    /***************************************************************************
-     *  Check if array is sorted - useful for debugging.
-     ***************************************************************************/
-    private static boolean isSorted(String[] a) {
-        return isSorted(a, 0, a.length - 1);
-    }
-
-    private static boolean isSorted(String[] a, int lo, int hi) {
-        for (int i = lo + 1; i <= hi; i++)
-            if (less(a[i], a[i-1])) return false;
-        return true;
-    }
 
     // print array to standard output
     private static void show(String[] a) {

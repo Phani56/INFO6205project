@@ -4,6 +4,11 @@ import util.FileUtil;
 import util.Utilities;
 
 
+
+/**
+ * Modified LSDStringSort from HuskySort repository. Changes include configuration of code based on the language.
+ * Radix and unicode offset are determined based on the input language in the config file.
+ */
 public class LSDStringSort {
 
     private static final int radix = Integer.parseInt(FileUtil.getProperties().getProperty("unicode_radix_range"));; // CHINESE PINYIN -> 256, TELUGU ->128;

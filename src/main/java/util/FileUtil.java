@@ -12,6 +12,13 @@ import java.util.stream.Collectors;
 
 import sort.counting.MSDStringSort;
 
+
+/**
+ * File utility class to read resources files like
+ *  - Word source files
+ *  - Properties files
+ * Some helper functions are taken from HuskySort repository
+ */
 public class FileUtil {
 
     final static LazyLogger logger = new LazyLogger(FileUtil.class);

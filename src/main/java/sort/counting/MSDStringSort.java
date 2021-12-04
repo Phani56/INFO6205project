@@ -5,7 +5,8 @@ import util.Utilities;
 
 
 /**
- * MSD Radix sort for Native languages CHINESE, TELUGU
+ * Modified MSDStringSort from HuskySort repository. Changes include configuration of code based on the language.
+ * Radix and unicode offset are determined based on the input language in the config file.
  */
 public class MSDStringSort {
 

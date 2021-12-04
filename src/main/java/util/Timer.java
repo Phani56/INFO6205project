@@ -6,6 +6,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+
+/**
+ * Modified Timer class from INFO6205 Assignments repository
+ */
 public class Timer {
 
     /**

@@ -9,6 +9,11 @@ import java.util.Collection;
 import java.util.Random;
 import java.util.function.Function;
 
+
+/**
+ * Modified Utilities class from INFO6205 Assignments repository. Added getPinyinString method.
+ */
+
 public class Utilities {
     /**
      * There is really no better way that I could find to do this with library/language methods.

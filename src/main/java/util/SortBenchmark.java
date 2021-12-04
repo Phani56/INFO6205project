@@ -15,15 +15,15 @@ import java.util.function.Supplier;
 
 public class SortBenchmark<T> {
 
-    static int inputSize = 1000000;
+    static int inputSize = 1000000;  // default input size - modified for each run
 
-    static String inputType = "RANDOM";
+    static String inputType = "RANDOM"; // default ordering of word supplier - used in getWordsByInput
 
     public static String language = FileUtil.getSortLanguage();
 
     final static LazyLogger logger = new LazyLogger(SortBenchmark.class);
 
-    static Supplier<String[]> wordSupplier = SortBenchmark::getWordsByInput;
+    static Supplier<String[]> wordSupplier = SortBenchmark::getWordsByInput; // word supplier for benchmarking
 
     static int RUNS = 5;
 
@@ -108,7 +108,7 @@ public class SortBenchmark<T> {
             inputType = currentInputType;
             inputSize = 250000;
             PureHuskySort pureHuskySort = new PureHuskySort(HuskyCoderFactory.utf8Coder, false, true);
-            sortBenchmark.benchmarkAlgorithm("MSD Radix sort", pureHuskySort::sort, wordSupplier);
+            sortBenchmark.benchmarkAlgorithm("Husky Radix sort", pureHuskySort::sort, wordSupplier);
         }
 
 //        String[] teluguWords = getWordsByInput();
