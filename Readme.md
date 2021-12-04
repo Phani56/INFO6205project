@@ -28,3 +28,5 @@ Configuration values are as follows
 _CHINESE_ : unicode_offset 0, radix_range 256
 
 _TELUGU_ : unicode_offset 3072, radix_range 128
+
+****Execute the [Sort benchmark file](https://github.com/Phani56/INFO6205project/blob/master/src/main/java/util/SortBenchmark.java) run becnmarkings for all the Sorting algorithms mentioned above. Update the language variable in config.properties to change the language****
