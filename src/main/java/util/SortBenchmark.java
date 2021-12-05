@@ -77,7 +77,7 @@ public class SortBenchmark<T> {
     }
 
     public static void main(String[] args) {
-        String[] inputTypes = {"REVERSE", "PARTIALLY_SORTED", "SORTED", "RANDOM"};
+        String[] inputTypes = {"RANDOM", "PARTIALLY_SORTED", "SORTED", "REVERSE"};
         SortBenchmark<String[]> sortBenchmark = new SortBenchmark<>();
 
         for (String currentInputType: inputTypes) {
@@ -107,16 +107,23 @@ public class SortBenchmark<T> {
         for (String currentInputType: inputTypes) {
             inputType = currentInputType;
             inputSize = 250000;
-            PureHuskySort pureHuskySort = new PureHuskySort(HuskyCoderFactory.utf8Coder, false, true);
+            PureHuskySort pureHuskySort = null;
+            if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) {
+                pureHuskySort = new PureHuskySort(HuskyCoderFactory.asciiCoder, false, false);
+            }
+            else {
+                pureHuskySort = new PureHuskySort(HuskyCoderFactory.chineseEncoder, false, false);
+            }
             sortBenchmark.benchmarkAlgorithm("Husky Radix sort", pureHuskySort::sort, wordSupplier);
         }
 
 //        String[] teluguWords = getWordsByInput();
 //        String[] sortedteluguWords = getWordsByInput();
 //        long start = System.currentTimeMillis();
-//        QuickSort_DualPivot.sort(teluguWords);
+//        PureHuskySort pureHuskySort = new PureHuskySort(HuskyCoderFactory.asciiCoder, false, false);
+//        pureHuskySort.sort(teluguWords);
 //        long second = System.currentTimeMillis();
-//        logger.info("Quicksort time" + (second-start));
+//        logger.info("Husky Sort time" + (second-start));
 //        TimSort.sort(sortedteluguWords);
 //        long third = System.currentTimeMillis();
 //        logger.info("Quicksort time" + (third-second));

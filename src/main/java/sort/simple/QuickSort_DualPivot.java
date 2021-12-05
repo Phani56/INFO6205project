@@ -1,6 +1,7 @@
 package sort.simple;
 
 
+import sort.counting.InsertionSortMSD;
 import util.FileUtil;
 import util.Utilities;
 
@@ -13,6 +14,8 @@ public class QuickSort_DualPivot {
 
     public static String language = FileUtil.getSortLanguage();
 
+    private static final int cutoff = 20;
+
     // quicksort the array a[] using dual-pivot quicksort
     public static void sort(String[] a) {
         sort(a, 0, a.length - 1);
@@ -21,6 +24,7 @@ public class QuickSort_DualPivot {
     // quicksort the subarray a[lo .. hi] using dual-pivot quicksort
     private static void sort(String[] a, int lo, int hi) {
         if (hi <= lo) return;
+        if (hi < lo + cutoff) InsertionSortMSD.sort(a, lo, hi+1);
 
         // make sure a[lo] <= a[hi]
         if (less(a[hi], a[lo])) exch(a, lo, hi);
