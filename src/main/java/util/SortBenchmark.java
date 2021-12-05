@@ -120,7 +120,7 @@ public class SortBenchmark<T> {
 //        String[] teluguWords = getWordsByInput();
 //        String[] sortedteluguWords = getWordsByInput();
 //        long start = System.currentTimeMillis();
-//        PureHuskySort pureHuskySort = new PureHuskySort(HuskyCoderFactory.asciiCoder, false, false);
+//        PureHuskySort pureHuskySort = new PureHuskySort(HuskyCoderFactory.chineseEncoder, false, false);
 //        pureHuskySort.sort(teluguWords);
 //        long second = System.currentTimeMillis();
 //        logger.info("Husky Sort time" + (second-start));
@@ -128,12 +128,14 @@ public class SortBenchmark<T> {
 //        long third = System.currentTimeMillis();
 //        logger.info("Quicksort time" + (third-second));
 //        int c = 0;
-//        for (int i = 0; i < teluguWords.length; i++) {
-//            if (!teluguWords[i].equals(sortedteluguWords[i])) {
-//                c++;
+//        for (int i = 0; i < 1000; i++) {
+//           if (!teluguWords[i].equals(sortedteluguWords[i])) {
+//               c++;
 //            }
+//            System.out.println(teluguWords[i]);
 //        }
 //        System.out.println(c);
-    }
+
+   }
 
 }
