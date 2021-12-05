@@ -1,5 +1,6 @@
 package sort.counting;
 
+import sort.simple.QuickSort_DualPivot;
 import util.FileUtil;
 import util.Utilities;
 
@@ -66,5 +67,20 @@ public class MSDStringSort {
         else return -1;
     }
 
+    private static void show(String[] a) {
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(a[i]);
+        }
+    }
 
+    public static void main(String[] args) {
+        String[] a = {"a", "b", "c"};
+        try {
+            a = FileUtil.getWordArray();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        MSDStringSort.sort(a);
+        show(a);
+    }
 }
