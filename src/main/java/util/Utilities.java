@@ -1,5 +1,9 @@
 package util;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Random;
@@ -77,4 +81,19 @@ public class Utilities {
         for (int i = 1; i < ts.length; i++) if (ts[i - 1].compareTo(ts[i]) > 0) return false;
         return true;
     }
+
+    public static String getPinyinString(String chineseString) {
+        String pinyinString = "";
+        try {
+            HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+//            format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+//            format.setVCharType(HanyuPinyinVCharType.WITH_V);
+            pinyinString = PinyinHelper.toHanyuPinyinString(chineseString, format, " ");
+        } catch (BadHanyuPinyinOutputFormatCombination e) {
+            System.out.println(e.getMessage());
+        }
+        return pinyinString;
+    }
+
+
 }

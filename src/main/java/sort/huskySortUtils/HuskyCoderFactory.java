@@ -3,6 +3,9 @@
  */
 package sort.huskySortUtils;
 
+import util.FileUtil;
+import util.Utilities;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.LongBuffer;
@@ -38,6 +41,8 @@ public final class HuskyCoderFactory {
     private static final int BIT_WIDTH_UTF8 = 8;
     private static final int MAX_LENGTH_UTF8 = BITS_LONG / BIT_WIDTH_UTF8;
     private static final int MASK_UTF8 = MASK_BYTE;
+
+    public static String language = FileUtil.getSortLanguage();
 
     /**
      * Method to create a generic HuskyCoder for a class which is HuskySortable.
@@ -115,6 +120,7 @@ public final class HuskyCoderFactory {
          * @return a long which is, as closely as possible, monotonically increasing with the domain of X values.
          */
         public long huskyEncode(final String str) {
+            if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) return unicodeToLong(Utilities.getPinyinString(str));
             return unicodeToLong(str);
         }
     };
@@ -132,7 +138,7 @@ public final class HuskyCoderFactory {
          * @return a long which is, as closely as possible, monotonically increasing with the domain of X values.
          */
         public long huskyEncode(final String str) {
-            return utf8ToLong(str);
+            return utf8ToLong(Utilities.getPinyinString(str));
         }
     };
 

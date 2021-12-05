@@ -125,3 +125,7 @@ fabric.properties
 *.zip
 *.tar.gz
 *.rar
+
+/target/
+
+*.DS_Store
