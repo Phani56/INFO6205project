@@ -19,7 +19,7 @@ public class TimSortTest extends TestCase {
             sortedArray = new String[] {"అమ్మాయి", "అయితే", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "పైన", "యువ", "సాదా", "సాధారణ", "సిద్ధంగా"};
         }
         else{
-            unsortedArray = new String[] { "阿斌", "阿安", "阿彬", "阿滨", "阿冰", "阿朝", "阿超", "阿婵", "阿冰冰", "阿兵"};
+            unsortedArray = new String[] { "阿斌","阿安", "阿冰", "阿滨", "阿彬", "阿朝", "阿超", "阿婵", "阿冰冰", "阿兵"};
             sortedArray = new String[] {"阿安", "阿斌", "阿滨", "阿彬", "阿冰", "阿兵", "阿冰冰", "阿婵", "阿超", "阿朝"};
 
         }
@@ -85,7 +85,7 @@ public class TimSortTest extends TestCase {
         }
         else{
             unsortedArray = new String[] { "阿朝", "阿超", "阿婵", "阿冰冰", "阿兵", "阿冰", "阿彬", "阿滨", "阿斌", "阿安"};
-            sortedArray = new String[] {"阿安", "阿斌", "阿滨", "阿彬", "阿冰", "阿兵", "阿冰冰", "阿婵", "阿超", "阿朝"};
+            sortedArray = new String[] {"阿安", "阿彬","阿滨","阿斌","阿兵", "阿冰",  "阿冰冰", "阿婵", "阿超","阿朝"};
 
         }
 
