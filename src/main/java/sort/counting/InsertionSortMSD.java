@@ -30,22 +30,6 @@ public class InsertionSortMSD {
     }
 
 
-    public static void sort(String[] a, int lo, int hi) {
-        for (int i = lo; i < hi; i++)
-            for (int j = i; j > lo && less(a[j], a[j - 1]); j--)
-                swap(a, j, j - 1);
-    }
-
-
-    private static boolean less(String v, String w) {
-        if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) {
-            return Utilities.getPinyinString(v).compareTo(Utilities.getPinyinString(w))<0;
-//            return Collator.getInstance(Locale.CHINA).compare(v, w) < 0;
-        } else return v.compareTo(w) < 0;
-    }
-
-
-
     private static void swap(Object[] a, int j, int i) {
         Object temp = a[j];
         a[j] = a[i];

@@ -99,6 +99,8 @@ public class SortBenchmark<T> {
         }
 
         for (String currentInputType: inputTypes) {
+            // Sorted and Reverse order are failing for dual pivot
+            if (currentInputType.equals("SORTED") || currentInputType.equals("REVERSE")) continue;
             inputType = currentInputType;
             inputSize = 250000;
             sortBenchmark.benchmarkAlgorithm("Dual Pivot Quick Sort", QuickSort_DualPivot::sort, wordSupplier);
@@ -107,33 +109,16 @@ public class SortBenchmark<T> {
         for (String currentInputType: inputTypes) {
             inputType = currentInputType;
             inputSize = 250000;
-            PureHuskySort pureHuskySort = null;
+            PureHuskySort<String> pureHuskySort = null;
             if (language.equals(FileUtil.SortLanguage.CHINESE.toString())) {
-                pureHuskySort = new PureHuskySort(HuskyCoderFactory.asciiCoder, false, false);
+                pureHuskySort = new PureHuskySort<>(HuskyCoderFactory.chineseEncoder, false, false);
             }
             else {
-                pureHuskySort = new PureHuskySort(HuskyCoderFactory.chineseEncoder, false, false);
+                pureHuskySort = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, false);
             }
-            sortBenchmark.benchmarkAlgorithm("Husky Radix sort", pureHuskySort::sort, wordSupplier);
+            sortBenchmark.benchmarkAlgorithm("Husky sort", pureHuskySort::sort, wordSupplier);
         }
 
-//        String[] teluguWords = getWordsByInput();
-//        String[] sortedteluguWords = getWordsByInput();
-//        long start = System.currentTimeMillis();
-//        PureHuskySort pureHuskySort = new PureHuskySort(HuskyCoderFactory.asciiCoder, false, false);
-//        pureHuskySort.sort(teluguWords);
-//        long second = System.currentTimeMillis();
-//        logger.info("Husky Sort time" + (second-start));
-//        TimSort.sort(sortedteluguWords);
-//        long third = System.currentTimeMillis();
-//        logger.info("Quicksort time" + (third-second));
-//        int c = 0;
-//        for (int i = 0; i < teluguWords.length; i++) {
-//            if (!teluguWords[i].equals(sortedteluguWords[i])) {
-//                c++;
-//            }
-//        }
-//        System.out.println(c);
     }
 
 }
