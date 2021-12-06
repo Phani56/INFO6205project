@@ -234,4 +234,5 @@ public class PureHuskySort<X extends Comparable<X>> {
     private final boolean useInsertionSort;
 
     private final static LazyLogger logger = new LazyLogger(PureHuskySort.class);
+
 }
