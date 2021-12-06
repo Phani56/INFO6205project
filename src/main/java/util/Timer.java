@@ -63,8 +63,9 @@ public class Timer {
         pause();
         for (int i=0; i<n; i++) {
             if (preFunction!=null) preFunction.apply(supplier.get());
+            T value = supplier.get();
             resume();
-            U result = function.apply(supplier.get());
+            U result = function.apply(value);
             pauseAndLap();
             if (postFunction!=null) postFunction.accept(result);
         }

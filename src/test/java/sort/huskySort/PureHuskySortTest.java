@@ -2,97 +2,107 @@ package sort.huskySort;
 
 import junit.framework.TestCase;
 import org.junit.Test;
-import sort.BaseHelper;
-import sort.huskySortUtils.Coding;
-import sort.huskySortUtils.HuskyCoder;
 import sort.huskySortUtils.HuskyCoderFactory;
-import util.PrivateMethodInvoker;
-
-import java.math.BigInteger;
+import util.FileUtil;
 
 public class PureHuskySortTest extends TestCase {
 
-    private final BaseHelper<String> helper = new BaseHelper<>("dummy helper");
+    public static String language = FileUtil.getSortLanguage();
 
     @Test
-    public void testSortString1() {
-        String[] xs = {"Hello", "Goodbye", "Ciao", "Willkommen"};
-        PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.unicodeCoder, false, false);
-        sorter.sort(xs);
-        assertTrue("sorted", helper.sorted(xs));
+    public void testRandomElementsSort () throws Exception {
+
+        String[] unsortedArray = null;
+        String[] sortedArray = null;
+        if (language.equals("TELUGU")) {
+            unsortedArray = new String[] {"సాదా", "అమ్మాయి", "సాధారణ", "యువ", "సిద్ధంగా", "పైన", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "అయితే"};
+            sortedArray = new String[] {"అమ్మాయి", "అయితే", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "పైన", "యువ", "సాదా", "సాధారణ", "సిద్ధంగా"};
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.unicodeCoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
+        }
+        else{
+            unsortedArray = new String[] { "阿斌", "阿安", "阿彬", "阿滨", "阿冰", "阿朝", "阿超", "阿婵", "阿冰冰", "阿兵"};
+            sortedArray = new String[] {"阿安", "阿彬", "阿斌", "阿滨","阿兵", "阿冰", "阿冰冰", "阿超", "阿朝", "阿婵" };
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.chineseEncoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
+
+        }
     }
 
     @Test
-    public void testSortString2() {
-        PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, false);
-        final int N = 1000;
-        helper.init(N);
-        final String[] xs = helper.random(String.class, r -> r.nextLong() + "");
-        sorter.sort(xs);
-        assertTrue("sorted", helper.sorted(xs));
+    public void testSortedElementsSort () throws Exception {
+
+        String[] unsortedArray = null;
+        String[] sortedArray = null;
+        if (language.equals("TELUGU")) {
+            unsortedArray = new String[] {"అమ్మాయి", "అయితే", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "పైన", "యువ", "సాదా", "సాధారణ", "సిద్ధంగా"};
+            sortedArray = new String[] {"అమ్మాయి", "అయితే", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "పైన", "యువ", "సాదా", "సాధారణ", "సిద్ధంగా"};
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.unicodeCoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
+        }
+        else{
+            unsortedArray = new String[] { "阿安", "阿斌", "阿滨", "阿彬", "阿冰", "阿兵", "阿冰冰", "阿婵", "阿超", "阿朝"};
+            sortedArray = new String[] {"阿安", "阿彬", "阿斌", "阿滨","阿兵", "阿冰", "阿冰冰", "阿超", "阿朝", "阿婵" };
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.chineseEncoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
+
+        }
     }
 
     @Test
-    public void testSortString3() {
-        PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, false);
-        final int N = 1000;
-        helper.init(N);
-        final String[] xs = helper.random(String.class, r -> {
-            int x = r.nextInt(1000000000);
-            final BigInteger b = BigInteger.valueOf(x).multiply(BigInteger.valueOf(1000000));
-            return b.toString();
-        });
-        sorter.sort(xs);
-        assertTrue("sorted", helper.sorted(xs));
+    public void testPartialSortedElementsSort () throws Exception {
+
+        String[] unsortedArray = null;
+        String[] sortedArray = null;
+        if (language.equals("TELUGU")) {
+            unsortedArray = new String[] {"అమ్మాయి", "అయితే", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "సిద్ధంగా", "యువ", "పైన", "సాధారణ", "సాదా"};
+            sortedArray = new String[] {"అమ్మాయి", "అయితే", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "పైన", "యువ", "సాదా", "సాధారణ", "సిద్ధంగా"};
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.unicodeCoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
+        }
+        else{
+            unsortedArray = new String[] { "阿安", "阿斌", "阿滨", "阿彬", "阿冰", "阿朝", "阿超", "阿婵", "阿冰冰", "阿兵"};
+            sortedArray = new String[] {"阿安", "阿彬", "阿斌", "阿滨","阿兵", "阿冰", "阿冰冰", "阿超", "阿朝", "阿婵" };
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.chineseEncoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
+        }
     }
 
     @Test
-    public void testSortString4() {
-        String[] xs = {"Hello", "Goodbye", "Ciao", "Willkommen"};
-        PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, false);
-        sorter.sort(xs);
-        assertTrue("sorted", helper.sorted(xs));
-    }
+    public void testReverseSortedElementsSort () throws Exception {
 
-    @Test
-    public void testSortString5() {
-        String[] xs = {"Hello", "Goodbye", "Ciao", "Welcome"};
-        PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, false);
-        sorter.sort(xs);
-        assertTrue("sorted", helper.sorted(xs));
-    }
+        String[] unsortedArray = null;
+        String[] sortedArray = null;
+        if (language.equals("TELUGU")) {
+            unsortedArray = new String[] {"సిద్ధంగా", "సాధారణ", "సాదా", "యువ", "పైన", "జాబితా", "ఎరుపు", "ఎప్పుడూ", "అయితే", "అమ్మాయి"};
+            sortedArray = new String[] {"అమ్మాయి", "అయితే", "ఎప్పుడూ", "ఎరుపు", "జాబితా", "పైన", "యువ", "సాదా", "సాధారణ", "సిద్ధంగా"};
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.unicodeCoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
+        }
+        else{
+            unsortedArray = new String[] { "阿朝", "阿超", "阿婵", "阿冰冰", "阿兵", "阿冰", "阿彬", "阿滨", "阿斌", "阿安"};
+            sortedArray = new String[] {"阿安", "阿彬", "阿斌", "阿滨","阿兵", "阿冰", "阿冰冰", "阿超", "阿朝", "阿婵" };
+            PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.chineseEncoder, false, false);
+            sorter.sort(unsortedArray);
+            for (int i = 0; i < unsortedArray.length; i++)
+                assertTrue("Mismatch", unsortedArray[i].equals(sortedArray[i]));
 
-    @Test
-    public void testFloorLg() {
-        PrivateMethodInvoker privateMethodInvoker = new PrivateMethodInvoker(PureHuskySort.class);
-        assertEquals(Integer.valueOf(1), privateMethodInvoker.invokePrivate("floor_lg", 3));
-        assertEquals(Integer.valueOf(2), privateMethodInvoker.invokePrivate("floor_lg", 5));
-    }
+        }
 
-    @Test
-    public void testWithInsertionSort() {
-        PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, true);
-        PrivateMethodInvoker privateMethodInvoker = new PrivateMethodInvoker(sorter);
-        HuskyCoder<String> huskyCoder = (HuskyCoder<String>) privateMethodInvoker.invokePrivate("getHuskyCoder");
-        final int N = 100;
-        helper.init(N);
-        final String[] xs = helper.random(String.class, r -> r.nextLong() + "");
-        Coding coding = huskyCoder.huskyEncode(xs);
-        sorter.insertionSort(xs, coding.longs, 0, N);
-        assertEquals(0, helper.inversions(xs));
-    }
-
-    @Test
-    public void testInsertionSort() {
-        PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, false);
-        PrivateMethodInvoker privateMethodInvoker = new PrivateMethodInvoker(sorter);
-        HuskyCoder<String> huskyCoder = (HuskyCoder<String>) privateMethodInvoker.invokePrivate("getHuskyCoder");
-        final int N = 100;
-        helper.init(N);
-        final String[] xs = helper.random(String.class, r -> r.nextLong() + "");
-        Coding coding = huskyCoder.huskyEncode(xs);
-        sorter.insertionSort(xs, coding.longs, 0, N);
-        assertEquals(0, helper.inversions(xs));
     }
 
 }
