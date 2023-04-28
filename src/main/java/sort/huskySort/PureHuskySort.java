@@ -8,7 +8,7 @@ import sort.simple.InsertionSort;
 import util.LazyLogger;
 
 import java.text.Collator;
-import java.util.Arrays;
+import java.util.*
 import java.util.Collections;
 
 import static java.util.Arrays.binarySearch;
